@@ -1,19 +1,14 @@
 import {
-  AppBar,
   Box,
   Button,
-  Container,
-  Link,
-  Paper,
+  Container, Paper,
   TextField,
-  Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
 import http from "../../../http";
-import { Link as RouterLink } from "react-router-dom";
 
 const FormularioRestaurante = () => {
   const parametros = useParams();
@@ -47,6 +42,7 @@ const FormularioRestaurante = () => {
           nome: nomeRestaurante,
         })
         .then(() => {
+          setNomeRestaurante("");
           alert("Restaurante cadastrado com sucesso!");
         });
     }
