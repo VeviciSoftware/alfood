@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import http from '../../../http';
-import ITag from '../../../interfaces/ITag';
-import IRestaurante from '../../../interfaces/IRestaurante';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import http from "../../../http";
+import ITag from "../../../interfaces/ITag";
+import IRestaurante from "../../../interfaces/IRestaurante";
 import {
-    Box,
-    Button,
-    Container,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Paper,
-    Select,
-    TextField,
-    Typography,
-  } from "@mui/material";
+  Box,
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const FormularioPratos = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,13 +27,16 @@ const FormularioPratos = () => {
   const [imagem, setImagem] = useState<File | null>(null);
 
   useEffect(() => {
-    http.get<{ tags: ITag[] }>("tags/")
+    http
+      .get<{ tags: ITag[] }>("tags/")
       .then((response) => setTags(response.data.tags));
-    http.get<IRestaurante[]>("restaurantes/")
+    http
+      .get<IRestaurante[]>("restaurantes/")
       .then((response) => setRestaurantes(response.data));
 
     if (id) {
-      http.get(`pratos/${id}/`)
+      http
+        .get(`pratos/${id}/`)
         .then((response) => {
           setNomePrato(response.data.nome);
           setDescricao(response.data.descricao);
@@ -70,25 +73,26 @@ const FormularioPratos = () => {
     const metodo = id ? "PUT" : "POST";
     const url = id ? `pratos/${id}/` : "pratos/";
 
-    http.request({
-      url: url,
-      method: metodo,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData,
-    })
-    .then(() => {
-      setNomePrato("");
-      setDescricao("");
-      setTag("");
-      setRestaurante("");
-      setImagem(null);
-      alert(`Prato ${id ? "atualizado" : "cadastrado"} com sucesso!`);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    http
+      .request({
+        url: url,
+        method: metodo,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
+      })
+      .then(() => {
+        setNomePrato("");
+        setDescricao("");
+        setTag("");
+        setRestaurante("");
+        setImagem(null);
+        alert(`Prato ${id ? "atualizado" : "cadastrado"} com sucesso!`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -117,6 +121,7 @@ const FormularioPratos = () => {
                 variant="standard"
                 fullWidth
                 required
+                sx={{ mb: 2 }}
               />
               <TextField
                 value={descricao}
@@ -125,9 +130,10 @@ const FormularioPratos = () => {
                 variant="standard"
                 fullWidth
                 required
+                sx={{ mb: 2 }}
               />
 
-              <FormControl margin="dense" fullWidth>
+              <FormControl margin="dense" fullWidth sx={{ mb: 2 }}>
                 <InputLabel id="select-tag">Tag</InputLabel>
                 <Select
                   labelId="select-tag"
@@ -142,7 +148,7 @@ const FormularioPratos = () => {
                 </Select>
               </FormControl>
 
-              <FormControl margin="dense" fullWidth>
+              <FormControl margin="dense" fullWidth sx={{ mb: 2 }}>
                 <InputLabel id="select-restaurante">Restaurante</InputLabel>
                 <Select
                   labelId="select-restaurante"
@@ -157,7 +163,11 @@ const FormularioPratos = () => {
                 </Select>
               </FormControl>
 
-              <input type="file" onChange={selecionarArquivo} />  
+              <input
+                type="file"
+                onChange={selecionarArquivo}
+                style={{ marginBottom: "16px" }}
+              />
 
               <Button
                 sx={{ marginTop: 1 }}
